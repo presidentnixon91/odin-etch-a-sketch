@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Etch a Sketch</title>
+    <style>
+        .container {
+            max-width: 1060px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .btn-container {
+            margin-bottom: 2rem;
+        }
+        button#btn-clear {
+            padding: 10px;
+        }
+        .grid-container {
+            width: 960px;
+            height: 960px;
+            display: flex;
+            align-items: stretch;
+            flex-wrap: wrap;
+            justify-content: center;
+            border: 1px solid #000;
+        }
+    </style>
+  </head>
+
+  <body>
+      <div class="container">
+        <h1>Etch a Sketch project</h1>
+        <h2>The Odin Project</h2>
+        <div class="btn-container">
+            <button id="btn-clear">Clear grid</button>
+        </div>
+        <div class="grid-container">
+
+        </div>
+    </div>
+  </body>
+
+  <script>
+    // Create a grid of 4x4
+    // Get div
+    const gridDiv = document.querySelector('.grid-container');
+    // Use a loop to create 16 squares in the grid
+    let rows = 4;
+    function createGrid(numberRows) {
+        let numberSquares = numberRows * numberRows;
+        for (i=1;i<=numberSquares;i++) {
+            // Create div element to add to grid
+            let gridSquare = document.createElement('div');
+            gridSquare.setAttribute('class', 'grid-square grid-square-' + i);
+            const widthHeight = 100 / numberRows;
+            gridSquare.style.cssText = 'width: ' + widthHeight + '%; height: ' + widthHeight + '%;';
+            // Add div to grid
+            gridDiv.appendChild(gridSquare);
+
+            // Change div colour on hover
+            // Add event listeners to all squares
+            gridSquare.addEventListener('mouseover', (e) => {
+                e.target.style.cssText = e.target.style.cssText + 'background-color: ' + getRandomColor();
+            });
+        }
+    }
+    // Create grid initially
+    createGrid(rows);
+
+    // Create a button that will clear the grid
+    const clearBtn = document.querySelector('#btn-clear');
+    clearBtn.addEventListener('click', (e) => {
+        gridDiv.innerHTML = '';
+        // Ask user for number of rows in new grid
+        let rowNumber = parseInt(prompt('How many rows for new grid? Maximum 10 rows.'));
+        // Create new grid with specified number
+        if (rowNumber > 10) {
+            rowNumber = 10;
+        }
+        createGrid(rowNumber);
+    });
+
+    // Generate a random colour for the square
+    function getRandomColor() {
+        let letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+  </script>
+
+</html>
